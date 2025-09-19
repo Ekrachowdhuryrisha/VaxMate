@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Stay Protected with VaxMate</h1>
+    <p>Your Personal Vaccine Tracker and Reminder System</p>
+    <a href="{% url 'register' %}" class="btn btn-primary">Get Started</a>
+    <a href="#features" class="btn btn-outline">Learn More</a>
+  </div>
+  <div>
+    <img src="{% static 'doctor.png' %}" alt="Doctor Illustration">
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="features">
+  <h2>Features</h2>
+  <div class="feature-cards">
+    <div class="card gradient1">
+      <i class="fa-solid fa-bell"></i>
+      <h4>Smart Reminders</h4>
+      <p>Get timely alerts for your next vaccination date.</p>
+    </div>
+    <div class="card gradient2">
+      <i class="fa-solid fa-people-group"></i>
+      <h4>Family Tracking</h4>
+      <p>Manage vaccination schedules for your entire family.</p>
+    </div>
+    <div class="card gradient3">
+      <i class="fa-solid fa-hospital"></i>
+      <h4>Center Finder</h4>
+      <p>Locate nearby vaccination centers easily.</p>
+    </div>
+    <div class="card gradient4">
+      <i class="fa-solid fa-newspaper"></i>
+      <h4>Latest Updates</h4>
+      <p>Stay informed with the newest vaccine-related news.</p>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="about">
+  <h2>About Us</h2>
+  <p>
+    VaxMate is a student-developed web platform designed to empower families across Bangladesh with comprehensive vaccination management tools. Born from the need for accessible, reliable healthcare solutions, we created a user-friendly system that bridges the gap between families and essential vaccination services.<br>
+
+
+Our platform offers more than just reminders—it's a complete vaccination ecosystem. From intelligent scheduling that accounts for age-appropriate vaccines to real-time updates on government immunization programs, VaxMate ensures you never miss a critical dose. Our family tracking feature allows parents to monitor vaccination records for children, elderly relatives, and extended family members all in one secure dashboard.<br>
+
+
+Built with the local context in mind, VaxMate integrates with Bangladesh's national vaccination calendar and provides location-specific information about nearby health centers, mobile vaccination units, and special immunization campaigns. We partner with local health authorities to deliver accurate, timely information that families can trust.<br>
+
+
+Our mission is simple: make vaccination management as easy as checking your email. By combining modern technology with healthcare expertise, we help families stay protected, reduce missed appointments, and contribute to building a healthier Bangladesh. Join thousands of families who trust VaxMate to keep their loved ones safe and healthy.<br>
+  </p>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="contact">
+  <h2>Contact Us</h2>
+  <form>
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea rows="4" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+{% endblock %}

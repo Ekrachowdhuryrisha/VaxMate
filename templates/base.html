@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaxMate</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+      background: #ffffff;
+      color: #333;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 60px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav .logo img {
+      height: 80px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    nav ul li a:hover {
+      color: #0d9488;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 80px 60px;
+      background: linear-gradient(135deg, #B0FEDC, #cad6f3);
+    }
+    .hero-text {
+      max-width: 70%;
+    }
+    .hero-text h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .hero-text p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+    }
+    .hero-text .btn {
+      padding: 12px 24px;
+      margin-right: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .btn-primary {
+      background: #18a599;
+      color: #fff;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #0d9488;
+      color: #0d9488;
+    }
+    .btn-primary:hover {
+      background: #0b7a71;
+    }
+    .btn-outline:hover {
+      background: #0d9488;
+      color: #fff;
+    }
+
+    .hero img {
+      max-width: 600px;
+    }
+
+    /* Features */
+    .features {
+      text-align: center;
+      padding: 200px 60px;
+    }
+    .features h2 {
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+    }
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .card {
+      padding: 30px;
+      border-radius: 16px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card i {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .gradient1 { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
+    .gradient2 { background: linear-gradient(135deg, #10b981, #06b6d4); }
+    .gradient3 { background: linear-gradient(135deg, #f97316, #ef4444); }
+    .gradient4 { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
+
+    /* About */
+    .about {
+      padding: 200px 80px;
+      background: #f0fdfa;
+      text-align: center;
+    }
+
+    /* Contact */
+    .contact {
+      padding: 80px 60px;
+      text-align: center;
+    }
+    .contact form {
+      max-width: 500px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .contact input, .contact textarea {
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+    .contact button {
+      background: #0d9488;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .contact button:hover {
+      background: #0b7a71;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #fff;
+      border-top: 1px solid #eee;
+      margin-top: 50px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      <img src="{% static 'logo.png' %}" alt="VaxMate Logo">
+    </div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+      <li><a href="{% url 'register' %}">Register</a></li>
+      <li><a href="{% url 'login' %}">Log In</a></li>
+    </ul>
+  </nav>
+
+  {% block content %}{% endblock %}
+
+  <footer>
+    &copy; 2025 VaxMate. All rights reserved. | Terms of Use | Privacy Policy
+  </footer>
+</body>
+</html>

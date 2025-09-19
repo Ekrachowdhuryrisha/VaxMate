@@ -16,7 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from vaxmate_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Pages
+    path('', views.home, name='home'),
+    path('features/', views.features, name='features'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login_page, name='login'),
+    path('profile/', views.profile, name='profile'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('reminder/', views.reminder, name='reminder'),
+    path('vaccineschedule/', views.vaccine_schedule, name='vaccineschedule'),
+    path('verifyemail/', views.verify_email, name='verifyemail'),
+    path('centers/', views.centers, name='centers'),
 ]
