@@ -1,0 +1,14 @@
+<nav class="navbar">
+  <div class="logo">
+    {% load static %}
+    <img src="{% static 'images/logo.png' %}" alt="VaxMate Logo">
+  </div>
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'features' %}">Features</a>
+    <a href="{% url 'aboutUs' %}">About Us</a>
+    <a href="{% url 'contact' %}">Contact Us</a>
+    <a href="{% url 'register' %}">Register</a>
+    <a href="{% url 'login' %}" class="login-btn">Log In</a>
+  </div>
+</nav>

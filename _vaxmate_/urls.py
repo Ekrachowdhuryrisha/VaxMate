@@ -24,7 +24,7 @@ urlpatterns = [
     # Pages
     path('', views.home, name='home'),
     path('features/', views.features, name='features'),
-    path('about/', views.about, name='about'),
+    path('aboutUs/', views.aboutUs, name='aboutUs'),
     path('contact/', views.contact, name='contact'),
     path('register/', views.register, name='register'),
     path('login/', views.login_page, name='login'),

@@ -7,8 +7,8 @@ def home(request):
 def features(request):
     return render(request, "htmlpages/features.html")
 
-def about(request):
-    return render(request, "htmlpages/about.html")
+def aboutUs(request):
+    return render(request, "htmlpages/aboutUs.html")
 
 def contact(request):
     return render(request, "htmlpages/contact.html")
