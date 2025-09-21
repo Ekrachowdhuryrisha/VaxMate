@@ -17,7 +17,7 @@ body {
 
 .logo img {
   height: 100%;   /* fill navbar height */
-  max-height: 60px; /* adjust so it doesn’t stretch too much */
+  max-height: 150px; /* adjust so it doesn’t stretch too much */
   width: auto;
   display: block;
   margin-left: 20px;
@@ -40,33 +40,33 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 100px 10%;
-  background: linear-gradient(to bottom, #59e4c2, #f0f9ff);
+  background: linear-gradient(to bottom, #B0FEDC, #C5D2F4);
 }
 
 .hero-img img {
-  max-width: 400px; /* Reduce width */
+  max-width: 500px; /* Reduce width */
   height: auto;
 }
 
 .hero-text h1 {
-  font-size: 40px;
+  font-size: 60px;
   margin-bottom: 15px;
 }
 
 .hero-text p {
-  font-size: 18px;
-  margin-bottom: 25px;
+  font-size: 25px;
+  margin-bottom: 50px;
 }
 
 .buttons a {
   padding: 12px 24px;
   margin-right: 15px;
-  border-radius: 6px;
+  border-radius: 10px;
   text-decoration: none;
 }
 
 .btn-primary {
-  background: #00a6d6;
+  background: #27a8cb;
   color: #fff;
 }
 
@@ -142,4 +142,42 @@ body {
 .footer p {
   font-size: 15px;
   color: #000000;
+}
+
+/* Sticky Navbar */
+.navbar.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Active Link */
+.nav-links a.active {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* Button hover animation */
+.btn {
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  transform: scale(1.05);
+  background-color: #0056b3;
+  color: #fff;
+}
+
+/* Reveal Animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
