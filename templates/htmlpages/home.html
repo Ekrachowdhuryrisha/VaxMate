@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% block title %}Home - VaxMate{% endblock %}
+{% load static %}
+{% block content %}
+<section class="hero">
+  <div class="hero-text">
+    <h1>Stay Protected with VaxMate</h1>
+    <p>Your Personal Vaccine Tracker and Reminder System</p>
+    <div class="buttons">
+      <a href="{% url 'register' %}" class="btn-primary">Get started</a>
+      <a href="#features" class="btn-secondary">Learn More</a>
+    </div>
+  </div>
+  <div class="hero-img">
+    <img src="{% static 'images/doctor.png' %}" alt="Doctor Image">
+  </div>
+</section>
+
+<style>
+  .about {
+    text-align: justify;
+    padding: 120px 40px; /* Increased padding for standard look */
+    background: linear-gradient(to bottom, #B0FEDC, #C5D2F4); /* ✅ Fixed gradient */
+  }
+
+  .about h2 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 50px;
+  }
+
+
+  .features {
+    text-align: center;
+    padding: 120px 40px;
+    background: #ffffff;
+  }
+
+  .features h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 50px;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .feature-box {
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #e8f6f9, #f3fbfc);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.25s ease-in-out;
+    text-align: left;
+  }
+
+  .feature-box:hover {
+    transform: translateY(-6px);
+  }
+
+  .feature-icon {
+    width: 55px;
+    height: 55px;
+    margin-right: 20px;
+    flex-shrink: 0;
+  }
+
+  .feature-text h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 5px;
+    color: #195C7A;
+  }
+
+  .feature-text p {
+    font-size: 14px;
+    margin: 0;
+    color: #444;
+    line-height: 1.5;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+    .feature-box {
+      padding: 25px;
+    }
+  }
+</style>
+
+<section id="features" class="features">
+  <h2>Features</h2>
+  <div class="feature-grid">
+    <div class="feature-box">
+      <img src="https://img.icons8.com/ios-filled/55/195C7A/alarm.png" alt="Smart Reminders" class="feature-icon">
+      <div class="feature-text">
+        <h4>Smart Reminders</h4>
+        <p>Never miss your next Vaccine</p>
+      </div>
+    </div>
+    <div class="feature-box">
+      <img src="https://img.icons8.com/ios-filled/55/195C7A/family.png" alt="Family Tracking" class="feature-icon">
+      <div class="feature-text">
+        <h4>Family Tracking</h4>
+        <p>Manage Vaccinations for your loved ones</p>
+      </div>
+    </div>
+    <div class="feature-box">
+      <img src="https://img.icons8.com/ios-filled/55/195C7A/marker.png" alt="Center Finder" class="feature-icon">
+      <div class="feature-text">
+        <h4>Center Finder</h4>
+        <p>Locate nearby vaccination centers</p>
+      </div>
+    </div>
+    <div class="feature-box">
+      <img src="https://img.icons8.com/ios-filled/55/195C7A/plus-math.png" alt="Latest Updates" class="feature-icon">
+      <div class="feature-text">
+        <h4>Latest Updates</h4>
+        <p>Get health alerts and vaccine updates</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="about">
+  <h2>About Us</h2>
+  <p> VaxMate is a student-developed web platform designed to empower families across Bangladesh with comprehensive vaccination management tools. Born from the need for accessible, reliable healthcare solutions, we created a user-friendly system that bridges the gap between families and essential vaccination services.
+
+
+Our platform offers more than just reminders—it's a complete vaccination ecosystem. From intelligent scheduling that accounts for age-appropriate vaccines to real-time updates on government immunization programs, VaxMate ensures you never miss a critical dose. Our family tracking feature allows parents to monitor vaccination records for children, elderly relatives, and extended family members all in one secure dashboard.
+
+
+Built with the local context in mind, VaxMate integrates with Bangladesh's national vaccination calendar and provides location-specific information about nearby health centers, mobile vaccination units, and special immunization campaigns. We partner with local health authorities to deliver accurate, timely information that families can trust.
+
+
+Our mission is simple: make vaccination management as easy as checking your email. By combining modern technology with healthcare expertise, we help families stay protected, reduce missed appointments, and contribute to building a healthier Bangladesh. Join thousands of families who trust VaxMate to keep their loved ones safe and healthy.
+  </p>
+</section>
+
+<section id="contact" class="contact">
+  <h2>Contact Us</h2>
+  <form method="POST" action="{% url 'home' %}">
+    {% csrf_token %}
+    <div class="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="message" placeholder="Message" required></textarea>
+      <button type="submit" class="submit-btn">Submit</button>
+    </div>
+  </form>
+</section>
+
+<style>
+  #contact {
+    background: linear-gradient(to right, #c5d2f4, #b0fedc);
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #contact h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #195C7A;
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #444;
+    outline: none;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: #195C7A;
+  }
+
+  .contact-form button {
+    padding: 15px;
+    background-color: #195C7A;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .contact-form button:hover {
+    background-color: #133C54;
+  }
+</style>
+
+
+
+{% endblock %}
