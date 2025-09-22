@@ -153,3 +153,25 @@ def verify_email(request):
 def centers(request):
     return render(request, "htmlpages/center.html")
 
+from django.core.mail import send_mail
+from django.conf import settings
+from django.http import HttpResponse
+
+def send_message(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+        
+        # Send the email (this should be the authority email)
+        send_mail(
+            f"New Message from {name}",
+            message,
+            email,  # Sender's email
+            [settings.AUTHORITY_EMAIL],  # Replace with the authority's email address
+        )
+        
+        return HttpResponse("Thank you for contacting us! We will get back to you soon.")
+    return redirect('home')
+
+
