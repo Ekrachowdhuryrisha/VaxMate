@@ -6,8 +6,7 @@
 <div class="verify-overlay">
   <div class="verify-card">
     <h2>Verify your Email</h2>
-    <p>Please enter the 6-digit OTP sent to your email. <br>
-       <small>(OTP is valid for 5 minutes)</small></p>
+    <p>Please enter the OTP sent to your email:</p>
 
     <form method="post">
       {% csrf_token %}
@@ -15,16 +14,20 @@
 
       {% if error %}
         <p class="error">{{ error }}</p>
-      {% endif %}
-      {% if messages %}
-        {% for message in messages %}
-          <p class="message {{ message.tags }}">{{ message }}</p>
-        {% endfor %}
+
       {% endif %}
 
       <button type="submit" name="action" value="submit" class="btn-submit">Submit</button>
       <button type="submit" name="action" value="resend" class="btn-resend">Resend OTP</button>
     </form>
+
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
   </div>
 </div>
 

@@ -1,11 +1,13 @@
-
 import random, time
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
+from django.conf import settings
+from django.http import HttpResponse
+
 
 def home(request):
     return render(request, "htmlpages/home.html")
@@ -19,6 +21,7 @@ def aboutUs(request):
 def contact(request):
     return render(request, "htmlpages/contact.html")
 
+
 # 🔹 Helper function: send OTP
 def send_otp(request, email):
     otp = str(random.randint(100000, 999999))  # generate 6-digit otp
@@ -30,7 +33,7 @@ def send_otp(request, email):
         send_mail(
             subject="Your VaxMate Verification Code",
             message=f"Your verification code is {otp}",
-            from_email="katsukiaimeee@gmail.com",
+            from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email],
             fail_silently=False,
         )
@@ -38,19 +41,26 @@ def send_otp(request, email):
         print("Email sending failed:", e)
         messages.error(request, "Could not send OTP. Try again later.")
 
+
 # 🔹 Register view
 def register(request):
     if request.method == "POST":
         full_name = request.POST.get("full_name")
         email = request.POST.get("email")
         password = request.POST.get("password")
+        confirm_password = request.POST.get("reset_password")
+
+        # password match check
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return render(request, "htmlpages/register.html")
 
         # check if email already exists
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email is already registered.")
             return render(request, "htmlpages/register.html")
 
-        # temporarily store user info (not password in plain text!)
+        # temporarily store user info
         request.session['temp_user'] = {
             "full_name": full_name,
             "email": email,
@@ -62,6 +72,7 @@ def register(request):
         return redirect("verify")  # go to verification page
 
     return render(request, "htmlpages/register.html")
+
 
 # 🔹 Verify view
 def verify(request):
@@ -111,35 +122,36 @@ def verify(request):
     return render(request, "htmlpages/verify.html")
 
 
+# 🔹 Login view
 def login(request):
     if request.method == "POST":
-        username = request.POST.get("username")
+        username = request.POST.get("username")  # in our case, email
         password = request.POST.get("password")
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            login(request, user)  # Django session login
+            auth_login(request, user)  # Django session login
             return redirect("dashboard")  # ✅ redirect to dashboard
         else:
-            messages.error(request, "Invalid username or password")  # show error
+            messages.error(request, "Invalid username or password")
             return redirect("login")
 
-    return render(request, "htmlpages/login.html")  # GET request → show login form
+    return render(request, "htmlpages/login.html")
 
-@login_required(login_url='login')  # user must be logged in
+
+@login_required(login_url='login')
 def dashboard(request):
-    return render(request, "dashboard.html")
+    return render(request, "htmlpages/dashboard.html")
+
 
 def logout_view(request):
     logout(request)
     return redirect("home")
 
+
 def profile(request):
     return render(request, "htmlpages/profile.html")
-
-def dashboard(request):
-    return render(request, "htmlpages/dashboard.html")
 
 def reminder(request):
     return render(request, "htmlpages/reminder.html")
@@ -153,25 +165,20 @@ def verify_email(request):
 def centers(request):
     return render(request, "htmlpages/center.html")
 
-from django.core.mail import send_mail
-from django.conf import settings
-from django.http import HttpResponse
 
+# 🔹 Contact form (authority email message)
 def send_message(request):
     if request.method == 'POST':
         name = request.POST['name']
         email = request.POST['email']
         message = request.POST['message']
-        
-        # Send the email (this should be the authority email)
+
         send_mail(
             f"New Message from {name}",
             message,
             email,  # Sender's email
-            [settings.AUTHORITY_EMAIL],  # Replace with the authority's email address
+            [settings.AUTHORITY_EMAIL],  # Replace with authority's email
         )
-        
+
         return HttpResponse("Thank you for contacting us! We will get back to you soon.")
     return redirect('home')
-
-
