@@ -127,3 +127,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "katsukiaimeee@gmail.com"     # e.g. your@gmail.com
 EMAIL_HOST_PASSWORD = os.environ.get('piqvghjlmpozwoaw')  # app password (16 chars)
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# settings.py
+AUTHORITY_EMAIL = 'katsukiaimeee@gmail.com'
+

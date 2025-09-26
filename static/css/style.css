@@ -75,27 +75,111 @@ body {
   color: #00a6d6;
 }
 
+<<<<<<< HEAD
 /* Features */
+=======
+/* Features Section */
+>>>>>>> b27742a80272a634079c8c0507cfecbd05693af1
 .features {
   padding: 60px 10%;
   text-align: center;
 }
 
+<<<<<<< HEAD
 .feature-grid {
   display: grid;
   background: linear-gradient(to bottom) #72f4d1 #f0f9ff;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+=======
+.features h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #004d66;
+  margin-bottom: 40px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  justify-items: center;
+>>>>>>> b27742a80272a634079c8c0507cfecbd05693af1
   margin-top: 30px;
 }
 
 .feature-box {
+<<<<<<< HEAD
   background: linear-gradient(to bottom) #72f4d1 #f0f9ff;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+=======
+  background: linear-gradient(to right, #eaf7f6, #f3fdfd);
+  padding: 25px 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s forwards;
+}
+
+.feature-box:nth-child(1) { animation-delay: 0.1s; }
+.feature-box:nth-child(2) { animation-delay: 0.3s; }
+.feature-box:nth-child(3) { animation-delay: 0.5s; }
+.feature-box:nth-child(4) { animation-delay: 0.7s; }
+
+.feature-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+.feature-box h4 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #004d66;
+}
+
+.feature-box p {
+  font-size: 15px;
+  color: #555;
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+  .features h2 {
+    font-size: 26px;
+  }
+  .feature-box h4 {
+    font-size: 18px;
+  }
+  .feature-box p {
+    font-size: 14px;
+  }
+}
+
+
+>>>>>>> b27742a80272a634079c8c0507cfecbd05693af1
 /* About */
 .about {
   padding: 60px 10%;
