@@ -3,11 +3,15 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as auth_login, logout
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse
 
+from vaxmate_app.models import Update
+
+
+# --------------------- Public Pages ---------------------
 
 def home(request):
     return render(request, "htmlpages/home.html")
@@ -22,12 +26,13 @@ def contact(request):
     return render(request, "htmlpages/contact.html")
 
 
-# 🔹 Helper function: send OTP
+# --------------------- OTP Helper ---------------------
+
 def send_otp(request, email):
-    otp = str(random.randint(100000, 999999))  # generate 6-digit otp
+    otp = str(random.randint(100000, 999999))  # 6-digit OTP
     request.session['otp'] = otp
     request.session['email'] = email
-    request.session['otp_time'] = time.time()  # store OTP generation time
+    request.session['otp_time'] = time.time()
 
     try:
         send_mail(
@@ -42,7 +47,8 @@ def send_otp(request, email):
         messages.error(request, "Could not send OTP. Try again later.")
 
 
-# 🔹 Register view
+# --------------------- Register & Verify ---------------------
+
 def register(request):
     if request.method == "POST":
         full_name = request.POST.get("full_name")
@@ -50,31 +56,29 @@ def register(request):
         password = request.POST.get("password")
         confirm_password = request.POST.get("reset_password")
 
-        # password match check
+        # Password check
         if password != confirm_password:
             messages.error(request, "Passwords do not match.")
             return render(request, "htmlpages/register.html")
 
-        # check if email already exists
+        # Email already exists check
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email is already registered.")
             return render(request, "htmlpages/register.html")
 
-        # temporarily store user info
+        # Save temp user data
         request.session['temp_user'] = {
             "full_name": full_name,
             "email": email,
-            "password": password,  # kept until OTP verified
+            "password": password,
         }
 
-        # send OTP
         send_otp(request, email)
-        return redirect("verify")  # go to verification page
+        return redirect("verify")
 
     return render(request, "htmlpages/register.html")
 
 
-# 🔹 Verify view
 def verify(request):
     if request.method == "POST":
         action = request.POST.get("action")
@@ -84,7 +88,7 @@ def verify(request):
             saved_otp = request.session.get("otp")
             otp_time = request.session.get("otp_time")
 
-            # check expiry (5 minutes)
+            # Expiry check (5 minutes)
             if otp_time and time.time() - otp_time > 300:
                 return render(request, "htmlpages/verify.html", {"error": "OTP expired. Please resend."})
 
@@ -92,22 +96,24 @@ def verify(request):
                 data = request.session.get("temp_user")
 
                 if data:
-                    # create user
+                    # Create user
                     user = User.objects.create_user(
-                        username=data["email"],  # username as email
+                        username=data["email"],
                         email=data["email"],
                         password=data["password"],
                         first_name=data["full_name"]
                     )
                     user.save()
 
-                    # clear session
-                    for key in ["otp", "otp_time", "temp_user", "email"]:
-                        if key in request.session:
-                            del request.session[key]
+                    # Auto login after verify
+                    auth_login(request, user)
 
-                    messages.success(request, "Account created successfully! Please log in.")
-                    return redirect("login")  # go to login page
+                    # Clear session
+                    for key in ["otp", "otp_time", "temp_user", "email"]:
+                        request.session.pop(key, None)
+
+                    messages.success(request, "Account created successfully!")
+                    return redirect("dashboard")
             else:
                 return render(request, "htmlpages/verify.html", {"error": "Wrong code"})
 
@@ -122,17 +128,18 @@ def verify(request):
     return render(request, "htmlpages/verify.html")
 
 
-# 🔹 Login view
-def login(request):
+# --------------------- Auth ---------------------
+
+def login_view(request):
     if request.method == "POST":
-        username = request.POST.get("username")  # in our case, email
+        username = request.POST.get("username")
         password = request.POST.get("password")
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            auth_login(request, user)  # Django session login
-            return redirect("dashboard")  # ✅ redirect to dashboard
+            auth_login(request, user)
+            return redirect("dashboard")
         else:
             messages.error(request, "Invalid username or password")
             return redirect("login")
@@ -140,33 +147,40 @@ def login(request):
     return render(request, "htmlpages/login.html")
 
 
-@login_required(login_url='login')
-def dashboard(request):
-    return render(request, "htmlpages/dashboard.html")
-
-
-def logout_view(request):
-    logout(request)
+def logout(request):
+    auth_logout(request)
     return redirect("home")
 
 
-def profile(request):
-    return render(request, "htmlpages/profile.html")
+# --------------------- Protected Pages ---------------------
 
+@login_required(login_url='login')
+def dashboard(request):
+    updates = Update.objects.all().order_by("-created_at")[:5]
+    return render(request, "htmlpages/dashboard.html", {"updates": updates})
+
+@login_required(login_url='login')
+def vaccine_schedule(request):
+    return render(request, "htmlpages/vaccineschedule.html")
+
+@login_required(login_url='login')
+def centers(request):
+    return render(request, "htmlpages/center.html")
+
+@login_required(login_url='login')
 def reminder(request):
     return render(request, "htmlpages/reminder.html")
 
-def vaccine_schedule(request):
-    return render(request, "htmlpages/vaccineschedule.html")
+@login_required(login_url='login')
+def profile(request):
+    return render(request, "htmlpages/profile.html")
 
 def verify_email(request):
     return render(request, "htmlpages/verifyemail.html")
 
-def centers(request):
-    return render(request, "htmlpages/center.html")
 
+# --------------------- Contact Form ---------------------
 
-# 🔹 Contact form (authority email message)
 def send_message(request):
     if request.method == 'POST':
         name = request.POST['name']
@@ -176,8 +190,8 @@ def send_message(request):
         send_mail(
             f"New Message from {name}",
             message,
-            email,  # Sender's email
-            [settings.AUTHORITY_EMAIL],  # Replace with authority's email
+            email,
+            [settings.AUTHORITY_EMAIL],
         )
 
         return HttpResponse("Thank you for contacting us! We will get back to you soon.")

@@ -1,0 +1,113 @@
+{% extends 'base_loggedin.html' %}
+{% block title %}Dashboard - VaxMate{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="dashboard">
+  <h2>Dashboard</h2>
+
+  <div class="dashboard-cards">
+        <div class="card" data-url="{% url 'vaccine_schedule' %}">
+    <i class="fa fa-syringe"></i>
+    <h3>Upcoming Vaccinations</h3>
+    <p>Polio - Due on September 2025</p>
+</div>
+
+<div class="card" data-url="{% url 'reminder' %}">
+    <i class="fa fa-bell"></i>
+    <h3>Reminders Active</h3>
+    <p>3 Emails and SMS reminders set</p>
+</div>
+
+<div class="card" data-url="{% url 'profile' %}">
+    <i class="fa fa-users"></i>
+    <h3>Family Members</h3>
+    <p>4 members being tracked</p>
+</div>
+  </div>
+
+  <section class="latest-updates">
+    <h3>Latest Updates</h3>
+    <ul>
+      <li>Govt launches new Measles Campaign next month.</li>
+      <li>WHO issues new vaccine guidelines</li>
+      <!-- Later make this dynamic from admin -->
+    </ul>
+  </section>
+
+  <div class="action-buttons">
+    <button onclick="location.href='#'"><i class="fa fa-plus"></i> Add Vaccine</button>
+    <button onclick="location.href='#'"><i class="fa fa-plus"></i> Add Family Member</button>
+  </div>
+</div>
+
+<style>
+.dashboard {
+  padding: 2rem;
+  background: linear-gradient(to bottom, #dff9f3, #fff);
+  min-height: calc(100vh - 100px);
+}
+.dashboard h2 {
+  margin-bottom: 1rem;
+}
+.dashboard-cards {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.dashboard-cards .card {
+  background: #fff;
+  flex: 1;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+.dashboard-cards .card:hover {
+  transform: translateY(-5px);
+}
+.dashboard-cards .card i {
+  font-size: 2rem;
+  color: #3ce99c;
+  margin-bottom: 0.5rem;
+}
+.latest-updates {
+  margin-bottom: 2rem;
+}
+.latest-updates ul {
+  list-style: none;
+  padding: 0;
+}
+.latest-updates li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ddd;
+}
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+}
+.action-buttons button {
+  background: #3ce99c;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+.action-buttons button:hover {
+  background: #2ac985;
+}
+</style>
+
+<script>
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      window.location.href = card.dataset.url;
+    });
+  });
+</script>
+
+{% endblock %}
