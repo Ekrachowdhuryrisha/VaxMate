@@ -148,9 +148,9 @@ def login_view(request):
 
 
 def logout(request):
-    auth_logout(request)
-    return redirect("home")
-
+        auth_logout(request)
+        return redirect("home")
+    
 
 # --------------------- Protected Pages ---------------------
 
