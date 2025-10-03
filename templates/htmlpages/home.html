@@ -146,7 +146,14 @@ Our mission is simple: make vaccination management as easy as checking your emai
 
 <section id="contact" class="contact">
   <h2>Contact Us</h2>
-  <form method="POST" action="{% url 'home' %}">
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <p class="{{ message.tags }}">{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+  <form method="POST" action="{% url 'send_message' %}">
     {% csrf_token %}
     <div class="contact-form">
       <input type="text" name="name" placeholder="Your Name" required>
