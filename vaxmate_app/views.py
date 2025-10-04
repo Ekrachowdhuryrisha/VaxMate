@@ -8,7 +8,10 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse
 
-from vaxmate_app.models import Update
+from vaxmate_app.models import Update 
+
+from .forms import FamilyMemberForm
+from .models import FamilyMember
 
 
 # --------------------- Public Pages ---------------------
@@ -196,3 +199,25 @@ def send_message(request):
 
         return HttpResponse("Thank you for contacting us! We will get back to you soon.")
     return redirect('home')
+
+# --------------------- add family member ---------------------
+
+
+@login_required
+def addfamilymember(request):
+    if request.method == "POST":
+        form = FamilyMemberForm(request.POST)
+        if form.is_valid():
+            family_member = form.save(commit=False)
+            family_member.user = request.user
+            family_member.save()
+            # redirect to the URL name defined in urls.py
+            return redirect("familymembers")
+    else:
+        form = FamilyMemberForm()
+    return render(request, "htmlpages/addfamilymember.html", {"form": form})
+
+@login_required
+def familymembers(request):
+    members = FamilyMember.objects.filter(user=request.user)
+    return render(request, "htmlpages/familymembers.html", {"members": members})

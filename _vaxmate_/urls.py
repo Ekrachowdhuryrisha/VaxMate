@@ -36,4 +36,6 @@ urlpatterns = [
     path('reminder/', views.reminder, name='reminder'),
     path('centers/', views.centers, name='centers'),
     path("send-message/", views.send_message, name="send_message"),
+    path("familymembers/", views.familymembers, name="familymembers"),
+    path("addfamilymember/", views.addfamilymember, name="addfamilymember"),
 ]

@@ -1,0 +1,55 @@
+{% extends "base_loggedin.html" %}
+{% block title %}Family Members{% endblock %}
+
+{% block content %}
+<div class="family-members">
+  <h2>Family Members</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Member Name</th>
+        <th>Age</th>
+        <th>Vaccine</th>
+        <th>Date & Time</th>
+        <th>Notification</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for member in members %}
+      <tr>
+        <td>{{ member.family_member_name }}</td>
+        <td>{{ member.family_member_age }}</td>
+        <td>{{ member.vaccine_name }}</td>
+        <td>{{ member.date_time }}</td>
+        <td>{{ member.notification_type }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">No family members added yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<style>
+.family-members {
+  padding: 2rem;
+}
+.family-members table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.family-members th, .family-members td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+.family-members th {
+  background: #27ADB2;
+  color: #fff;
+}
+</style>
+{% endblock %}
