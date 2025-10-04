@@ -132,3 +132,5 @@ EMAIL_HOST_PASSWORD = 'kjtr kkcx loml ophu'  # Gmail App Password
 # settings.py
 AUTHORITY_EMAIL = 'katsukiaimeee@gmail.com'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

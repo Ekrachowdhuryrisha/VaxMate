@@ -30,10 +30,15 @@ urlpatterns = [
     path("verify/", views.verify, name="verify"),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout, name='logout'),
-    path('profile/', views.profile, name='profile'),
+    path('profile/', views.profile_view, name='profile'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('vaccine_schedule/', views.vaccine_schedule, name='vaccine_schedule'),
     path('reminder/', views.reminder, name='reminder'),
     path('centers/', views.centers, name='centers'),
     path("send-message/", views.send_message, name="send_message"),
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,139 +1,39 @@
-{% extends 'base_loggedin.html' %}
-{% block title %}Profile - VaxMate{% endblock %}
 {% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile Page</title>
+</head>
+<body>
+    <h2>My Profile</h2>
 
-{% block content %}
-<div class="profile-page">
-  <!-- Left panel with Profile heading -->
-  <aside class="left-panel">
-    <h1>Profile</h1>
-  </aside>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
 
-  <!-- Main profile content -->
-  <main class="center-area">
-    <div class="profile-container">
-      <!-- Avatar -->
-      <div class="avatar-wrap">
-        <img src="{{ profile.avatar.url }}" alt="{{ request.user.get_full_name }}" class="avatar-img">
-      </div>
+        <!-- Profile Picture -->
+        {% if profile.photo %}
+            <img src="{{ profile.photo.url }}" alt="Profile Picture" width="150" height="150">
+        {% else %}
+            <img src="{% static 'images/default.png' %}" alt="Default Picture" width="150" height="150">
+        {% endif %}
 
-      <!-- Info card -->
-      <div class="info-card">
-        <h3>Name : {{ request.user.get_full_name|default:request.user.username }}</h3>
-        <div class="row"><strong>Email :</strong> {{ request.user.email }}</div>
-        <div class="row"><strong>Mobile No. :</strong> {{ profile.phone }}</div>
-        <div class="row"><strong>Gender :</strong> {{ profile.gender }}</div>
-        <div class="row"><strong>Date of Birth :</strong> {{ profile.dob }}</div>
-        <div class="row"><strong>Profession :</strong> {{ profile.profession }}</div>
-        <div class="row"><strong>Address :</strong> {{ profile.address }}</div>
-        <div class="row"><strong>Blood Group :</strong> {{ profile.blood_group }}</div>
+        <br><br>
 
-        <hr>
-        <!-- Update form -->
-        <form method="post" enctype="multipart/form-data" class="profile-form">
-          {% csrf_token %}
-          {{ form.non_field_errors }}
+        <!-- Add Photo (Upload from PC) -->
+        {{ form.photo }}
 
-          <div class="form-row">
-            {{ form.avatar.label_tag }} {{ form.avatar }}
-          </div>
-          <div class="form-row-inline">
-            {{ form.phone.label_tag }} {{ form.phone }}
-            {{ form.gender.label_tag }} {{ form.gender }}
-          </div>
-          <div class="form-row-inline">
-            {{ form.dob.label_tag }} {{ form.dob }}
-            {{ form.profession.label_tag }} {{ form.profession }}
-          </div>
-          <div class="form-row">
-            {{ form.address.label_tag }} {{ form.address }}
-          </div>
-          <div class="form-row">
-            {{ form.blood_group.label_tag }} {{ form.blood_group }}
-          </div>
+        <br><br>
 
-          <button type="submit" class="btn-save">Save changes</button>
-        </form>
-      </div>
-    </div>
-  </main>
-</div>
+        <!-- Editable Fields -->
+        Phone: {{ form.phone }} <br>
+        Address: {{ form.address }} <br>
+        Bio: {{ form.bio }} <br>
 
-<style>
-/* Page structure */
-.profile-page { display:flex; min-height:80vh; font-family: "Helvetica Neue", Arial, sans-serif; }
-.left-panel {
-  width:30%;
-  min-width:220px;
-  background:#135d5b;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:40px 20px;
-}
-.left-panel h1 { font-size:4rem; margin:0; }
+        <br>
 
-.center-area {
-  width:70%;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  padding:40px 0;
-  background: linear-gradient(#dff7f0, #d9e7ff 70%);
-}
-
-/* Profile container */
-.profile-container {
-  width:850px;
-  background: linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.18));
-  padding:35px;
-  border-radius:12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  display:flex;
-  gap:30px;
-  align-items:flex-start;
-}
-
-/* Avatar */
-.avatar-wrap { width:200px; display:flex; align-items:center; justify-content:center; }
-.avatar-img {
-  width:180px; height:180px; border-radius:50%;
-  object-fit:cover; border:6px solid #fff;
-  box-shadow:0 6px 16px rgba(0,0,0,0.12);
-}
-
-/* Info card */
-.info-card {
-  flex:1;
-  background: rgba(255,255,255,0.5);
-  padding:12px;
-  border-radius:12px;
-  border: 2px solid rgba(0,0,0,0.06);
-}
-.info-card h3 { margin:6px 0 10px; padding:8px; background: rgba(0,0,0,0.05); border-radius:6px; }
-
-.row { padding:10px; background:white; margin:8px 0; border-radius:4px; border-left:6px solid rgba(0,0,0,0.06); }
-.row strong { display:inline-block; width:160px; }
-
-/* Form */
-.profile-form { margin-top:12px; }
-.form-row, .form-row-inline { margin:8px 0; }
-.form-row-inline > * { display:inline-block; vertical-align:middle; margin-right:12px; }
-.btn-save {
-  margin-top:12px; padding:10px 18px; border:none; border-radius:8px;
-  background:#19857b; color:white; cursor:pointer;
-}
-.btn-save:hover { background:#146c61; }
-
-/* Responsive */
-@media (max-width:900px) {
-  .profile-page { flex-direction:column; }
-  .left-panel { width:100%; padding:20px; }
-  .center-area { width:100%; padding:20px; }
-  .profile-container { width:100%; flex-direction:column; align-items:center; }
-  .avatar-wrap { order:-1; margin-bottom:20px; }
-  .info-card { width:100%; }
-}
-</style>
-{% endblock %}
+        <!-- Buttons -->
+        <button type="submit" name="save_changes">Save Changes</button>
+        <button type="submit" name="delete_photo">Delete Photo</button>
+    </form>
+</body>
+</html>

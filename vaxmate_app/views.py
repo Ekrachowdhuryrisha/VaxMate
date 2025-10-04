@@ -9,6 +9,8 @@ from django.conf import settings
 from django.http import HttpResponse
 
 from vaxmate_app.models import Update
+from .models import Profile
+
 
 
 # --------------------- Public Pages ---------------------
@@ -196,3 +198,34 @@ def send_message(request):
 
         return HttpResponse("Thank you for contacting us! We will get back to you soon.")
     return redirect('home')
+
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Profile
+from .forms import ProfileForm
+
+@login_required
+def profile_view(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+
+        # If Delete button pressed
+        if 'delete_photo' in request.POST:
+            if profile.photo:
+                profile.photo.delete(save=True)
+            return redirect('profile')
+
+        # If Save Changes button pressed
+        elif form.is_valid():
+            form.save()
+            return redirect('profile')
+
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'htmlpages/profile.html', {'form': form, 'profile': profile})
