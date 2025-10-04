@@ -11,6 +11,8 @@ from django.http import HttpResponse
 from vaxmate_app.models import Update
 from .models import Profile
 
+from .forms import FamilyMemberForm
+from .models import FamilyMember
 
 
 # --------------------- Public Pages ---------------------
@@ -229,3 +231,24 @@ def profile_view(request):
         form = ProfileForm(instance=profile)
 
     return render(request, 'htmlpages/profile.html', {'form': form, 'profile': profile})
+# --------------------- add family member ---------------------
+
+
+@login_required
+def addfamilymember(request):
+    if request.method == "POST":
+        form = FamilyMemberForm(request.POST)
+        if form.is_valid():
+            family_member = form.save(commit=False)
+            family_member.user = request.user
+            family_member.save()
+            # redirect to the URL name defined in urls.py
+            return redirect("familymembers")
+    else:
+        form = FamilyMemberForm()
+    return render(request, "htmlpages/addfamilymember.html", {"form": form})
+
+@login_required
+def familymembers(request):
+    members = FamilyMember.objects.filter(user=request.user)
+    return render(request, "htmlpages/familymembers.html", {"members": members})

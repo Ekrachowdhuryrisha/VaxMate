@@ -26,3 +26,19 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+
+class FamilyMember(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="family_members")
+    name = models.CharField(max_length=100)
+    age = models.PositiveIntegerField()
+    relation = models.CharField(max_length=50)
+    vaccine_name = models.CharField(max_length=100)
+    date_time = models.DateTimeField()
+    notification_type = models.CharField(max_length=50, choices=[
+        ("Email", "Email"),
+        ("SMS", "SMS"),
+        ("App Notification", "App Notification")
+    ])
+
+    def __str__(self):
+        return f"{self.name} ({self.relation})"
